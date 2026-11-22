@@ -3,7 +3,7 @@ import { api } from "./api";
 
 type Doctor = { id: number; fullName: string; speciality: string };
 
-function DoctorCard({ doctor }: { doctor: Doctor }) {
+function DoctorCard({ doctor, onBooked }: { doctor: Doctor; onBooked: () => void }) {
   const [open, setOpen] = useState(false);
   const [time, setTime] = useState("");
   const [message, setMessage] = useState("");
@@ -23,6 +23,7 @@ function DoctorCard({ doctor }: { doctor: Doctor }) {
       setIsError(false);
       setMessage("Вы записаны!");
       setOpen(false);
+      onBooked();
     } catch (err) {
       setIsError(true);
       setMessage(err instanceof Error ? err.message : "Ошибка");
@@ -53,7 +54,7 @@ function DoctorCard({ doctor }: { doctor: Doctor }) {
   );
 }
 
-export function DoctorsList() {
+export function DoctorsList({ onBooked }: { onBooked: () => void }) {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [error, setError] = useState("");
 
@@ -68,7 +69,7 @@ export function DoctorsList() {
       <h2>Врачи</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {doctors.map((d) => (
-        <DoctorCard key={d.id} doctor={d} />
+        <DoctorCard key={d.id} doctor={d} onBooked={onBooked} />
       ))}
     </div>
   );
