@@ -4,11 +4,51 @@ import { api } from "./api";
 type Doctor = { id: number; fullName: string; speciality: string };
 
 function DoctorCard({ doctor }: { doctor: Doctor }) {
+  const [open, setOpen] = useState(false);
+  const [time, setTime] = useState("");
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
+
+  async function book() {
+    if (!time) {
+      setIsError(true);
+      setMessage("Выберите дату и время");
+      return;
+    }
+    try {
+      await api("/api/appointments", "POST", {
+        doctorId: doctor.id,
+        startTime: new Date(time).toISOString(),
+      });
+      setIsError(false);
+      setMessage("Вы записаны!");
+      setOpen(false);
+    } catch (err) {
+      setIsError(true);
+      setMessage(err instanceof Error ? err.message : "Ошибка");
+    }
+  }
+
   return (
     <div className="card">
       <h3>{doctor.fullName}</h3>
       <p>{doctor.speciality}</p>
-      <button>Записаться</button>
+
+      {open ? (
+        <>
+          <input
+            type="datetime-local"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+          />
+          <button onClick={book}>Подтвердить</button>
+          <button onClick={() => setOpen(false)}>Отмена</button>
+        </>
+      ) : (
+        <button onClick={() => setOpen(true)}>Записаться</button>
+      )}
+
+      {message && <p style={{ color: isError ? "red" : "green" }}>{message}</p>}
     </div>
   );
 }
