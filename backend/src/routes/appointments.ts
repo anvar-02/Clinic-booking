@@ -74,3 +74,15 @@ appointmentsRouter.delete("/:id", requireAuth, requireRole("patient"), async (re
 
   res.json({ ok: true });
 });
+appointmentsRouter.get("/doctor", requireAuth, requireRole("doctor"), async (req, res) => {
+  const result = await pool.query(
+    `SELECT a.id, a.start_time AS "startTime", p.full_name AS "patientName"
+     FROM appointments a
+     JOIN doctors d ON d.id = a.doctor_id
+     JOIN users p ON p.id = a.patient_id
+     WHERE d.user_id = $1
+     ORDER BY a.start_time`,
+    [res.locals.user.userId]
+  );
+  res.json(result.rows);
+});

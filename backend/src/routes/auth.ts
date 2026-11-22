@@ -2,6 +2,7 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { pool } from "../db.js";
 import jwt from "jsonwebtoken";
+import { requireAuth } from "../middleware/auth.js";
 
 export const authRouter = Router();
 
@@ -62,4 +63,17 @@ authRouter.post("/login", async (req, res) => {
     token,
     user: { id: user.id, email: user.email, fullName: user.full_name, role: user.role },
   });
+});
+authRouter.get("/me", requireAuth, async (req, res) => {
+  const result = await pool.query(
+    `SELECT id, email, full_name AS "fullName", role FROM users WHERE id = $1`,
+    [res.locals.user.userId]
+  );
+
+  if (result.rows.length === 0) {
+    res.status(401).json({ error: "Пользователь не найден" });
+    return;
+  }
+
+  res.json(result.rows[0]);
 });
