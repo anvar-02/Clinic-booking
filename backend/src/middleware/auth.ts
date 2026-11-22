@@ -21,3 +21,12 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
     res.status(401).json({ error: "Недействительный токен" });
   }
 }
+export function requireRole(...roles: string[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!roles.includes(res.locals.user.role)) {
+      res.status(403).json({ error: "Недостаточно прав" });
+      return;
+    }
+    next();
+  };
+}
