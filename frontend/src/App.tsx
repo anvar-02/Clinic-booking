@@ -1,19 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { LoginForm } from "./LoginForm";
+import { DoctorsList } from "./DoctorsList";
 
 function App() {
-  const [status, setStatus] = useState("загрузка...");
+  const [loggedIn, setLoggedIn] = useState(Boolean(localStorage.getItem("token")));
 
-  useEffect(() => {
-    fetch("/api/health")
-      .then((res) => res.json())
-      .then((data) => setStatus(data.status))
-      .catch(() => setStatus("сервер недоступен"));
-  }, []);
+  function logout() {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+  }
 
   return (
     <div>
       <h1>Запись в клинику</h1>
-      <p>Статус сервера: {status}</p>
+      {loggedIn ? (
+        <>
+          <button onClick={logout}>Выйти</button>
+          <DoctorsList />
+        </>
+      ) : (
+        <LoginForm onLogin={() => setLoggedIn(true)} />
+      )}
     </div>
   );
 }
