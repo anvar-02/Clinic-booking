@@ -55,3 +55,22 @@ appointmentsRouter.get("/my", requireAuth, requireRole("patient"), async (req, r
   );
   res.json(result.rows);
 });
+appointmentsRouter.delete("/:id", requireAuth, requireRole("patient"), async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) {
+    res.status(400).json({ error: "Неверный номер записи" });
+    return;
+  }
+
+  const result = await pool.query(
+    "DELETE FROM appointments WHERE id = $1 AND patient_id = $2",
+    [id, res.locals.user.userId]
+  );
+
+  if (result.rowCount === 0) {
+    res.status(404).json({ error: "Запись не найдена" });
+    return;
+  }
+
+  res.json({ ok: true });
+});
