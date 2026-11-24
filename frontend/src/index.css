@@ -164,6 +164,48 @@ h1, h2, h3 { color: var(--ink); }
 .cabinet-page li { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 9px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: #334155; font-size: 12px; }
 .cabinet-page li button { flex: 0 0 auto; min-height: 34px; padding: 0 11px; border: 0; border-radius: 8px; color: #b91c1c; background: #fef2f2; font-size: 11px; font-weight: 600; cursor: pointer; }
 .cabinet-page li button:hover { background: #fee2e2; }
+.doctors-list { margin-top: 22px; }
+.doctors-list > h2 { margin-bottom: 12px; }
+.slot-picker { margin-top: 15px; display: grid; gap: 13px; }
+.slot-picker label, .admin-doctor-form label, .day-off-form label { display: grid; gap: 7px; color: #475569; font-size: 11px; font-weight: 600; }
+.slot-picker input, .slot-picker select, .schedule-row input, .schedule-row select, .day-off-form input, .admin-doctor-form input { width: 100%; min-width: 0; min-height: 40px; margin: 0; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; color: var(--ink); background: #fff; font-size: 12px; }
+.slot-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.slot-actions .button-quiet { color: #475569 !important; background: #f1f5f9 !important; }
+.cabinet-page button:disabled { opacity: .55; cursor: not-allowed; }
+.slot-hint, .admin-help { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+.form-message { margin: 12px 0 0; font-size: 12px; line-height: 1.5; }
+.form-message.is-error { color: #b91c1c; }
+.form-message.is-success { color: #15803d; }
+.admin-panel { display: grid; gap: 30px; margin-top: 25px; }
+.admin-create-panel > p { margin-bottom: 20px; }
+.admin-doctor-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+.admin-doctor-form button, .day-off-form button { min-height: 40px; align-self: end; padding: 0 14px; border: 0; border-radius: 8px; color: #fff; background: var(--blue); font-size: 12px; font-weight: 700; cursor: pointer; }
+.admin-doctor-form button:hover, .day-off-form button:hover, .admin-refresh:hover { background: var(--blue-dark); }
+.admin-section { min-width: 0; }
+.admin-section > h2, .admin-section-heading h2 { margin: 0 0 15px; font-size: 21px; }
+.admin-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.admin-refresh { min-height: 36px; padding: 0 13px; border: 0; border-radius: 8px; color: #fff; background: var(--blue); font-size: 11px; font-weight: 700; cursor: pointer; }
+.admin-doctor-card { margin-top: 14px; padding: 21px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+.admin-doctor-heading { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+.admin-doctor-heading h3 { margin: 0 0 5px; font-size: 17px; }
+.admin-doctor-heading p { margin: 0; color: var(--muted); font-size: 11px; }
+.admin-doctor-card h4 { margin: 0 0 8px; font-size: 13px; }
+.admin-doctor-card .admin-help { margin-bottom: 12px; }
+.schedule-editor { display: grid; gap: 8px; }
+.schedule-row { display: grid; grid-template-columns: minmax(95px, 1.1fr) repeat(3, minmax(95px, .8fr)) auto; align-items: end; gap: 9px; padding: 9px; border: 1px solid #eef2f7; border-radius: 10px; background: #fbfdff; }
+.schedule-row > strong { align-self: center; font-size: 11px; }
+.schedule-row label { display: grid; gap: 5px; color: var(--muted); font-size: 10px; font-weight: 600; }
+.schedule-row input, .schedule-row select { min-height: 36px; padding: 6px 8px; }
+.schedule-save { min-height: 36px; padding: 0 10px; border: 0; border-radius: 7px; color: #fff; background: var(--blue); font-size: 10px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.schedule-save:hover { background: var(--blue-dark); }
+.day-off-section { margin-top: 22px; }
+.day-off-form { display: grid; grid-template-columns: .8fr 1.2fr auto; align-items: end; gap: 10px; }
+.day-off-list, .admin-appointment-list { margin: 12px 0 0; padding: 0; list-style: none; }
+.day-off-list li, .admin-appointment-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 8px; padding: 11px 13px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: #334155; font-size: 11px; }
+.day-off-list li button { min-height: 30px; }
+.admin-appointment-list li > div { display: grid; gap: 4px; min-width: 0; }
+.admin-appointment-list li strong { font-size: 11px; }
+.admin-appointment-list li span { overflow-wrap: anywhere; color: var(--muted); font-size: 10px; }
 
 @media (max-width: 960px) {
   .header-content { gap: 20px; }
@@ -223,6 +265,11 @@ h1, h2, h3 { color: var(--ink); }
   .cabinet-page { padding: 18px 18px 55px; }
   .cabinet-topbar { margin-bottom: 42px; }
   .cabinet-grid { grid-template-columns: 1fr; }
+  .admin-doctor-form, .day-off-form { grid-template-columns: 1fr; }
+  .schedule-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .schedule-row > strong { grid-column: 1 / -1; }
+  .schedule-save { grid-column: 1 / -1; }
+  .admin-doctor-card { padding: 16px; }
 }
 
 @media (max-width: 410px) {

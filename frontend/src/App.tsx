@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { LoginForm } from "./LoginForm";
-import { RegisterForm } from "./RegisterForm";
+import { AdminPanel } from "./AdminPanel";
 import { DoctorsList } from "./DoctorsList";
-import { MyAppointments } from "./MyAppointments";
 import { DoctorSchedule } from "./DoctorSchedule";
 import { LandingPage } from "./LandingPage";
+import { LoginForm } from "./LoginForm";
+import { MyAppointments } from "./MyAppointments";
+import { RegisterForm } from "./RegisterForm";
 import { api } from "./api";
 
 type User = { id: number; email: string; fullName: string; role: string };
@@ -55,7 +56,7 @@ function App() {
 
       <div className="cabinet-content">
         <span className="eyebrow">VitBite · личный кабинет</span>
-        <h1>{loggedIn ? "Ваши записи" : showRegister ? "Создать аккаунт" : "Войти в кабинет"}</h1>
+        <h1>{loggedIn ? "Ваш кабинет" : showRegister ? "Создать аккаунт" : "Войти в кабинет"}</h1>
 
         {loggedIn ? (
           <>
@@ -65,17 +66,16 @@ function App() {
               <div className="cabinet-grid">
                 <section className="cabinet-panel">
                   <h2>Записаться на приём</h2>
-                  <p>Выберите врача, свободное время и подтвердите запись.</p>
+                  <p>Выберите врача, свободный слот и подтвердите запись.</p>
                   <DoctorsList onBooked={() => setRefreshKey((key) => key + 1)} />
                 </section>
                 <section className="cabinet-panel">
-                  <h2>Мои записи</h2>
                   <MyAppointments refreshKey={refreshKey} />
                 </section>
               </div>
             )}
             {user?.role === "doctor" && <section className="cabinet-panel"><DoctorSchedule /></section>}
-            {user?.role === "admin" && <section className="cabinet-panel"><h2>Панель администратора</h2><p>Раздел управления клиникой появится позже.</p></section>}
+            {user?.role === "admin" && <AdminPanel />}
           </>
         ) : showRegister ? (
           <div className="auth-card">
